@@ -1,4 +1,4 @@
-//新闻小滚动
+﻿//新闻小滚动
 (function (obj) {
     var scrollTimer = null;
     obj.hover(function() {
@@ -74,7 +74,8 @@ cut($('.newsOver'));
                 cut($('.newsOver'));
             },
             error:function () {
-                alert('检查是否在服务器环境下或数据已损坏！');
+                window.location.href="404.html";
+		alert('服务器加载错误!');
             }
         });
     }
