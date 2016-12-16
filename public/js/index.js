@@ -266,17 +266,17 @@ function abr(list,text,pre,next) {
 (function () {
     $('.teamImg span').eq(1).hide();
     $('.teamText').first().show();
-    $('.teamImg').click(function () {
+    $('.teamImg').mouseenter(function () {
         var index=$(this).index();
         if($(this).width()==1200*0.4*0.2){
             $(this).stop().animate({
                 'width':'80%',
                 'opacity':1
-            },800).siblings().stop().animate({
+            },400).siblings().stop().animate({
                 'width':'20%',
                 'opacity':'.7'
-            },800);
-            $('.teamImg span').fadeOut(600).eq(index).fadeIn(1200);
+            },400);
+            $('.teamImg span').fadeOut(400).eq(index).fadeIn(500);
             $('.teamText').hide().eq(index).show();
         }
     });

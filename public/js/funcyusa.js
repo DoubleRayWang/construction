@@ -162,16 +162,28 @@ $('input,textarea').focus(function () {
 //提交验证
 $('#mSub').click(function () {
     if(regCn.test($('#mName').val()) && regTel.test($('#mNum').val()) && $('#mArea').val()!=''){
-        var myDate=new Date(),
-            year=myDate.getFullYear(),
-            month=myDate.getMonth()+1,
-            date=myDate.getDate(),
-            h=myDate.getHours(),
-            m=myDate.getMinutes(),
-            s=myDate.getSeconds();
-        var now=year+'/'+month+'/'+date+' '+h+':'+m+':'+s;
-        var mList='<div class="messageList clearFloat"><div class="meShowL"><img src="public/images/headerDefeaut.jpg"></div><div class="meShowR"><div class="mShowH clearFloat"><span class="nameShow">'+$('#mName').val()+'</span><span class="dateShow">'+now+'</span></div><div class="mShowB"><p class="conShow">'+$('#mArea').val()+'</p><span class="mDel">删除</span><ul class="mmDel"><li class="mSure">确认</li><li class="mNo">取消</li></ul></div></div></div>';
-        $('.messShow').append(mList);
+        swal({
+                title: "确定提交留言?",
+                text: "您的留言将会展示在留言区内，您可以选择删除!",
+                cancelButtonText: "取 消",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "提 交",
+                closeOnConfirm: false
+            },
+            function(){
+                swal("提交成功!", "您的留言已交由审核!", "success");
+                var myDate=new Date(),
+                    year=myDate.getFullYear(),
+                    month=myDate.getMonth()+1,
+                    date=myDate.getDate(),
+                    h=myDate.getHours(),
+                    m=myDate.getMinutes(),
+                    s=myDate.getSeconds();
+                var now=year+'/'+month+'/'+date+' '+h+':'+m+':'+s;
+                var mList='<div class="messageList clearFloat"><div class="meShowL"><img src="public/images/headerDefeaut.jpg"></div><div class="meShowR"><div class="mShowH clearFloat"><span class="nameShow">'+$('#mName').val()+'</span><span class="dateShow">'+now+'</span></div><div class="mShowB"><p class="conShow">'+$('#mArea').val()+'</p><span class="mDel">删除</span></div></div></div>';
+                $('.messShow').append(mList);
+            });
         return false;
     }else {
         if($('#mName').val()==''){
@@ -191,7 +203,13 @@ $('#mSub').click(function () {
 });
 $('#reSub').click(function () {
     if(regMail.test($('#reMail').val()) && regPass.test($('#rePass').val())){
-        return true;
+        swal({
+            title: "登录成功!",
+            text: "几秒钟后自动跳转回之前页，如未跳转，请点击这里!",
+            timer: 3000,
+            showConfirmButton: false
+        });
+        return false;
     }else {
         if ($('#reMail').val()==''){
             $('#mailLabel').text('×').css('color','red');
@@ -204,7 +222,13 @@ $('#reSub').click(function () {
 });
 $('#suSub').click(function () {
     if(regName.test($('#loMail').val()) && regPass.test($('#loPass').val())){
-        return true;
+        swal({
+            title: "登录成功!",
+            text: "几秒钟后自动跳转回之前页，如未跳转，请点击这里!",
+            timer: 3000,
+            showConfirmButton: false
+        });
+        return false;
     }else {
         if ($('#loMail').val()==''){
             $('#mailLabelS').text('×').css('color','red');
@@ -230,18 +254,24 @@ $('#mArea').on('keyup blur',function () {
 });
 //删除留言信息
 $('.messShow').on('click','.mDel',function (e) {
-    $(document).one('click',function () {
-        $('.messShow').find('.mmDel').hide();
-    })
-    $(this).next().show();
-    e.stopPropagation();
-});
-$('.messShow').on('click','.mSure',function () {
-    $(this).parents('.messageList').remove();
-    $(this).parent().hide();
-});
-$('.messShow').on('click','.mNo',function () {
-    $(this).parent().hide();
+    swal({
+            title: "确定要删除吗?",
+            text: "您的留言将会被彻底删除，无法恢复!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "是，删除",
+            cancelButtonText: "不，留着",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                swal("删除成功!", "您的留言已经永远的消失了!", "success");
+                $(e.target).parents('.messageList').remove();
+            } else {
+                swal("取消删除!", "您的留言依然停留在原地!", "error");
+            }
+        });
 });
 //登录页面的选项卡
 $('.user').click(function () {
